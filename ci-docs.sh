@@ -3,7 +3,6 @@ echo ============================================
 echo Deploying the documentation
 echo ============================================
 
-cd docs && \
 mvn -Phtml,pdf package && \
 git clone -b gh-pages https://jstrachan:${GITHUB_TOKEN}@github.com/funktionio/website.git gh-pages && \
 git config --global user.email "travis@fabric8.io" && \
