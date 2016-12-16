@@ -1,0 +1,79 @@
+[[get-started]]
+
+= Getting Started
+
+Type the following commands.
+
+To make it easier to see what kubernetes resources are being created you may wish to create a new namespace for this experiment first:
+
+[source]
+----
+kubectl create namespace funky
+kubectl config set-context `kubectl config current-context` --namespace=funky
+----
+
+Now we'll install the runtimes and a couple of connectors
+
+[source]
+----
+funktion install timer twitter
+----
+
+Now lets run the `funktion operator` to watch for funktion resources and create the necessary kubernetes `Deployment` and `Services`.
+
+[source]
+----
+funktion operate
+----
+
+Open another terminal then type:
+
+[source]
+----
+kubectl apply -f https://raw.githubusercontent.com/fabric8io/funktion-operator/master/examples/subscription1.yml
+----
+
+You should now have created a subscription flow. You can view the subscription via
+
+[source]
+----
+funktion get subscription
+----
+
+To view the output of the subscription you can use the following (assuming you've https://blog.fabric8.io/enable-bash-completion-for-kubernetes-with-kubectl-506bc89fe79e#.9oky2fe2e[enabled tab completion for kubectl]
+
+[source]
+----
+kubectl logs -f subscription1-[TAB]
+----
+
+If you don't have tab completion you can specify the exact pod name, or you can use this command to find it and use it:
+
+[source]
+----
+kubectl logs -f `kubectl get pod -oname -lfunktion.fabric8.io/kind=Subscription`
+----
+
+To delete the subscription:
+
+[source]
+----
+funktion delete subscription subscription1
+----
+
+Now lets create a function:
+
+[source]
+----
+kubectl apply -f https://raw.githubusercontent.com/fabric8io/funktion-operator/master/examples/function1.yml
+----
+
+If you are running the http://fabric8.io/guide/console.html[fabric8 console] then you will have the link:[exposecontroller] microservice running and will be able to invoke it via running one of these commands:
+
+[source]
+----
+minikube service function1 -n funky
+gofabric8 service function1 -n funky
+----
+
+Or clicking on the `funktion1` service in the http://fabric8.io/guide/console.html[fabric8 console] in the `Services` tab for the `funky` namespace.

@@ -1,0 +1,11 @@
+[[install]]
+
+= Installing Funktion
+
+To use `funktion` you will need a http://kubernetes.io/[kubernetes] or https://www.openshift.org/[openshift] cluster.
+
+If you are on your laptop a quick way to get a kubernetes cluster is by https://github.com/kubernetes/minikube#installation[installing and starting minikube] and then http://kubernetes.io/docs/user-guide/prereqs/[installing kubectl] and putting it on your `PATH` environment variable.
+
+You will also need to https://github.com/fabric8io/funktion-operator/releases[download the funktion binary for your platform] and add it to your `PATH` environment variable
+
+

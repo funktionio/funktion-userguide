@@ -1,0 +1,11 @@
+[[introduction]]
+
+= Introduction
+
+`Funktion` is an open source event driven lambda style programming model designed for http://kubernetes.io[Kubernetes].
+
+image::../images/icon.png[width=300, height=300, link="https://funktion.fabric8.io/"]
+
+Funktion supports over 200 of different http://camel.apache.org/components.html[event sources and connectors] including most network protocols, transports, databases, messaging systems, social networks, cloud services and SaaS offerings.
+
+In a sense funktion is a https://www.quora.com/What-is-Serverless-Computing[serverless] approach to event driven microservices as you focus on just writing simple _functions_ in whatever programming language you prefer, then `funktion` and Kubernetes takes care of the rest. Its not that there's no servers; its more that you as the funktion developer don't have to worry about managing them!
