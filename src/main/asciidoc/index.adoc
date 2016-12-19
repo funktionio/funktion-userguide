@@ -21,5 +21,8 @@ include::inc/introduction.adoc[]
 include::inc/installing.adoc[]
 include::inc/getting-started.adoc[]
 include::inc/cli.adoc[]
+include::inc/java.adoc[]
 include::inc/how-it-works.adoc[]
+include::inc/terminology.adoc[]
+include::inc/faq.adoc[]
 

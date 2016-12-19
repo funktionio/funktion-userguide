@@ -1,0 +1,27 @@
+[[faq]]
+
+= FAQ
+
+Here are the frequently asked questions:
+
+== General questions
+
+=== What is the license?
+
+All of the Funktion source code is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+=== How do I get started?
+
+Please https://funktion.fabric8.io/docs/#install[Install Funktion] then follow the https://funktion.fabric8.io/docs/#get-started[Getting Started Guide]
+
+
+=== How do I install funktion?
+
+See the https://funktion.fabric8.io/docs/#install[Install Guide]
+
+=== What is serverless?
+
+
+The term `serverless` just means that with lambda style programming the developer just focuses on writing `functions` only - there is no need for developers to think about managing servers or even containers.
+
+Its not that there are no servers - of course there are - its just that developers don't need to think about them at all, they are managed for you by the platform.
