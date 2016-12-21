@@ -63,7 +63,7 @@ There's over http://camel.apache.org/components.html[200 connectors] provided ou
 
 [source]
 ----
-funktion install amqp kafka timer
+funktion install amqp kafka timer twitter
 ----
 
 To just get a feel for what connectors are available without installing them try:
@@ -79,6 +79,34 @@ or for short:
 ----
 funktion install -l
 ----
+
+=== Configuring Connectors
+
+Various connectors have different configuration properties. For example the `twitter` connector has a number of properties to configure like the secret and token.
+
+So to configure a connector you can type:
+
+[source]
+----
+funktion edit connector twitter
+----
+
+You will then be prompted to enter new values; you can just hit `[ENTER]` to avoid changing a property.
+
+To see a list of all the properties you can type
+
+[source]
+----
+funktion edit connector twitter -l
+----
+
+Then you can pass in specific properties directly via the non-interactive version of the edit command:
+
+[source]
+----
+funktion edit connector twitter accessToken=mytoken accessTokenSecret=mysecret consumerKey=myconsumerkey consumerSecret=myconsumerSecert
+----
+
 
 === Running the Operator
 
