@@ -125,7 +125,7 @@ To create a new subscription for a connector try the following:
 
 [source]
 ----
-funktion subscribe --from timer://bar?period=5000 --to http://foo/
+funktion subscribe timer://bar?period=5000 http://foo/
 ----
 
 This will generate a new `Subscription` which will result in a new `Deployment` being created and one or more Pods should spin up.
