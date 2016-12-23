@@ -80,4 +80,4 @@ Or clicking on the `funktion1` service in the http://fabric8.io/guide/console.ht
 
 ## A more complex example
 
-To see a more real world style example check out the https://github.com/fabric8io/funktion-operator/tree/master/examples/blog-example[log splitting and counting example]
+To see a more real world style example check out the https://github.com/fabric8io/funktion-operator/tree/master/examples/blog-example[blog splitting and counting example using functions and flows]
