@@ -16,7 +16,7 @@ Now we'll install the runtimes and a couple of connectors
 
 [source]
 ----
-funktion install timer twitter
+funktion install http4 timer twitter
 ----
 
 Now lets run the `funktion operator` to watch for funktion resources and create the necessary kubernetes `Deployment` and `Services`.
@@ -77,3 +77,7 @@ gofabric8 service function1 -n funky
 ----
 
 Or clicking on the `funktion1` service in the http://fabric8.io/guide/console.html[fabric8 console] in the `Services` tab for the `funky` namespace.
+
+## A more complex example
+
+To see a more real world style example check out the https://github.com/fabric8io/funktion-operator/tree/master/examples/blog-example[log splitting and counting example]
