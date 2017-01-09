@@ -20,26 +20,42 @@ funktion install connector http4 timer twitter
 
 == Create a function
 
+You can create a function from an existing source file:
+
 [source]
 ----
 funktion create fn -f example/hello.js
 ----
 
-This should have created a new `function`. You can view it via
+Or you can specify the source code on the command line:
+
+[source]
+----
+funktion create fn -n hello -s 'module.exports = function(context, callback) { callback(200, "Hello, world!\n"); }'
+----
+
+Either of these will create a new function. You can view it via
 
 [source]
 ----
 funktion get fn
 ----
 
-If you wish to keep editing the source code of the function in your IDE and have funktion automatically update the running function use the `-w` argument to watch the source file(s):
+If you wish to keep editing the source code of the function in your editor and have funktion automatically update the running function use the `-w` argument to watch the source file(s):
 
 [source]
 ----
 funktion create fn -f example/hello.js -w
 ----
 
-To be able to find the URL of the function type:
+If you have a folder with multiple function source files inside you can pass the directory name or a wildcard pattern:
+
+[source]
+----
+funktion create fn -f example -w
+----
+
+To be able to find the URL of the running function type:
 
 [source]
 ----
