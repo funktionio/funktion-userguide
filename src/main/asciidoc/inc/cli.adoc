@@ -16,38 +16,29 @@ To list all the resources of different kind via:
 [source]
 ----
 funktion get connector
-funktion get subscription
-funktion get function
+funktion get flow
+funktion get fn
 funktion get runtime
-----
-
-or to save typing you can use:
-
-[source]
-----
-funktion get c
-funktion get s
-funktion get f
-funktion get r
 ----
 
 === Deleting resources
 
-You can delete a Connector or Subscription via:
+You can delete a Connector or flow via:
 
 [source]
 ----
 funktion delete connector foo
-funktion delete subscription bar
-funktion delete function whatnot
+funktion delete flow bar
+funktion delete fn whatnot
 funktion delete runtime nodejs
 ----
 
-Or to remove all the Subscriptions or Connectors use `--all`
+Or to remove all the functions, flows or connectors use `--all`
 
 [source]
 ----
-funktion delete subscription --all
+funktion delete flow --all
+funktion delete connector --all
 ----
 
 === Installing Runtimes and Connectors
@@ -56,7 +47,8 @@ To install the default function runtimes and connectors into your namespace type
 
 [source]
 ----
-funktion install --all-connectors
+funktion install runtime
+funktion install connector --all
 ----
 
 There's over http://camel.apache.org/components.html[200 connectors] provided out of the box. If you only want to install a number of them you can specify their names as parameters
@@ -70,14 +62,14 @@ To just get a feel for what connectors are available without installing them try
 
 [source]
 ----
-funktion install --list-connectors
+funktion install connector --list
 ----
 
 or for short:
 
 [source]
 ----
-funktion install -l
+funktion install conn -l
 ----
 
 === Configuring Connectors
@@ -108,65 +100,37 @@ funktion edit connector twitter accessToken=mytoken accessTokenSecret=mysecret c
 ----
 
 
-=== Running the Operator
 
-You can run the funktion operator from the command line if you prefer:
+=== Creating flows
 
-[source]
-----
-funktion operate
-----
-
-Though ideally we'd run the `funktion application` inside kubernetes; via a helm chart, `kubectl apply` or the `Run...` button in the http://fabric8.io/guide/console.html[fabric8 developer console] 
-
-=== Subscribing to events
-
-To create a new subscription for a connector try the following:
+To create a new flow for a connector try the following:
 
 [source]
 ----
-funktion subscribe timer://bar?period=5000 http://foo/
+funktion create flow timer://bar?period=5000 http://foo/
 ----
 
-This will generate a new `Subscription` which will result in a new `Deployment` being created and one or more Pods should spin up.
+This will generate a new `flow` which will result in a new `Deployment` being created and one or more Pods should spin up.
 
-Note that you must be running the `Operator` as described in the section above; its the `Operator` which actually creates a `Deployment` for each `Subscription`. 
+Note that the first time you try out a new Connector kind it may take a few moments to download the docker image for this connector - particularly the first time you use a connector.
 
-Also note that the first time you try out a new Connector kind it may take a few moments to download the docker image for this connector - particularly the first time you use a connector.
-
-Once a pod has started for the `Deployment` you can then view the logs of a subscription via `kubectl`
+Once a pod has started for the `Deployment` you can then view the logs of a flow via
 
 [source]
 ----
-kubectl logs -f nameOfSubscription[TAB]
+funktion logs flow timer-bar1
 ----
 
-==== Scaling a Subscription
+=== Using kubectl directly
 
-If you want to stop a subscription type:
+You can also create a flow using `kubectl` directly if you prefer:
 
 [source]
 ----
-kubectl scale --replicas=0 deployment nameOfSubscription
+kubectl apply -f https://github.com/funktionio/funktion/blob/master/examples/flow1.yml
 ----
 
-To start it again:
-
-[source]
-----
-kubectl scale --replicas=1 deployment nameOfSubscription
-----
-
-==== Using kubectl directly
-
-You can also create a Subscription using `kubectl` if you prefer:
-
-[source]
-----
-kubectl apply -f https://github.com/fabric8io/funktion-operator/blob/master/examples/subscription1.yml
-----
-
-You can view all the Connectors and Subscriptions via:
+You can view all the Connectors and flows via:
 
 [source]
 ----
@@ -177,6 +141,17 @@ Or delete them via
 
 [source]
 ----
-kubectl delete cm nameOfConnectorOrSubscription
+kubectl delete cm nameOfConnectorOrflow
 ----
 
+
+=== Running the Operator
+
+You can run the funktion operator from the command line if you prefer:
+
+[source]
+----
+funktion operate
+----
+
+Though ideally you'd install the funktion operator by <<install-platform>>

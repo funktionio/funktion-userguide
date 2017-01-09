@@ -2,9 +2,7 @@
 
 = Getting Started
 
-Type the following commands.
-
-To make it easier to see what kubernetes resources are being created you may wish to create a new namespace for this experiment first:
+To make it easier to see what kubernetes resources are being created as you create functions and flows lets use a separate namespace called `funky`.
 
 [source]
 ----
@@ -12,72 +10,91 @@ kubectl create namespace funky
 kubectl config set-context `kubectl config current-context` --namespace=funky
 ----
 
-Now we'll install the runtimes and a couple of connectors
+Now we'll install the runtimes and a couple of connectors into the `funky` namespace
 
 [source]
 ----
-funktion install http4 timer twitter
+funktion install runtime
+funktion install connector http4 timer twitter
 ----
 
-Now lets run the `funktion operator` to watch for funktion resources and create the necessary kubernetes `Deployment` and `Services`.
+== Create a function
 
 [source]
 ----
-funktion operate
+funktion create fn -f example/hello.js
 ----
 
-Open another terminal then type:
+This should have created a new `function`. You can view it via
 
 [source]
 ----
-kubectl apply -f https://raw.githubusercontent.com/fabric8io/funktion-operator/master/examples/subscription1.yml
+funktion get fn
 ----
 
-You should now have created a subscription flow. You can view the subscription via
+If you wish to keep editing the source code of the function in your IDE and have funktion automatically update the running function use the `-w` argument to watch the source file(s):
 
 [source]
 ----
-funktion get subscription
+funktion create fn -f example/hello.js -w
 ----
 
-To view the output of the subscription you can use the following (assuming you've https://blog.fabric8.io/enable-bash-completion-for-kubernetes-with-kubectl-506bc89fe79e#.9oky2fe2e[enabled tab completion for kubectl]
+To be able to find the URL of the function type:
 
 [source]
 ----
-kubectl logs -f subscription1-[TAB]
+funktion url fn hello
 ----
 
-If you don't have tab completion you can specify the exact pod name, or you can use this command to find it and use it:
+which will output the URL to access your function. Or to open it in a browser:
 
 [source]
 ----
-kubectl logs -f `kubectl get pod -oname -lfunktion.fabric8.io/kind=Subscription`
+funktion url fn hello -o
 ----
 
-To delete the subscription:
+
+== Create a flow
 
 [source]
 ----
-funktion delete subscription subscription1
+funktion create flow timer://bar?period=5000 http://hello/
 ----
 
-Now lets create a function:
+You should now have created a flow. You can view the flow via:
 
 [source]
 ----
-kubectl apply -f https://raw.githubusercontent.com/fabric8io/funktion-operator/master/examples/function1.yml
+funktion get flow
 ----
 
-If you are running the http://fabric8.io/guide/console.html[fabric8 console] then you will have the link:[exposecontroller] microservice running and will be able to invoke it via running one of these commands:
+To view the output of the flow you can use the following:
+
 
 [source]
 ----
-minikube service function1 -n funky
-gofabric8 service function1 -n funky
+funktion logs flow timer-bar1
+----
+You should eventually see the output of the timer events triggering your `hello` function.
+
+To delete the flow:
+
+[source]
+----
+funktion delete flow timer-bar1
 ----
 
-Or clicking on the `funktion1` service in the http://fabric8.io/guide/console.html[fabric8 console] in the `Services` tab for the `funky` namespace.
+=== Use an existing HTTP endpoint
 
-## A more complex example
+Flows can work with any endpoints whether they are defined via a `function` or not.
 
-To see a more real world style example check out the https://github.com/fabric8io/funktion-operator/tree/master/examples/blog-example[blog splitting and counting example using functions and flows]
+e.g. this flow will use an existing endpoint on the internet
+
+[source]
+----
+funktion create flow timer://bar?period=5000 http://ip.jsontest.com/
+----
+
+== A more complex example
+
+To see a more real world style example check out the https://github.com/funktionio/funktion/tree/master/examples/blog-example[blog splitting and counting example using functions and flows]

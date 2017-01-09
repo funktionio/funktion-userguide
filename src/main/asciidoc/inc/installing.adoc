@@ -6,6 +6,90 @@ To use `funktion` you will need a http://kubernetes.io/[kubernetes] or https://w
 
 If you are on your laptop a quick way to get a kubernetes cluster is by https://github.com/kubernetes/minikube#installation[installing and starting minikube] and then http://kubernetes.io/docs/user-guide/prereqs/[installing kubectl] and putting it on your `PATH` environment variable.
 
-You will also need to https://github.com/fabric8io/funktion-operator/releases[download the funktion binary for your platform] and add it to your `PATH` environment variable
+You will also need to https://github.com/funktionio/funktion/releases[download the funktion binary for your platform] and add it to your `PATH` environment variable
+
+To test your kubernetes cluster type the following commands which should succeed without error:
+
+[source]
+----
+kubectl get node
+kubectl get pod
+----
+
+
+[[install-platform]]
+== Installing the Funktion Platform
+
+There are a number of microservices required to run funktion:
+
+* funktion operator: manages Deployments for functions and flows
+* https://github.com/fabric8io/exposecontroller/[exposecontroller]: exposes `Services` (functions or flows) over node ports, ingress, public cloud load balancers or openshift routes
+* https://github.com/fabric8io/configmapcontroller/[configmapcontroller]: performs rolling updates of a `Deployment` when its associated `ConfigMap` changes
+
+To install these microservices type:
+
+[source]
+----
+funktion install platform
+----
+
+You will then get 3 `Deployment` resources created in the `funktion-system` namespace. You can view the pods created via:
+
+[source]
+----
+kubectl get pod -n funktion-system
+----
+
+You can change the namespace they are installed into via the `--namespace` argument:
+
+[source]
+----
+kubectl create namespace cheese
+funktion install platform --namespace cheese
+----
+
+=== Using Funktion with the Fabric8 Developer Platform
+
+If you are using the https://fabric8.io/[fabric8 developer platform] then the https://github.com/fabric8io/exposecontroller/[exposecontroller] and  https://github.com/fabric8io/configmapcontroller/[configmapcontroller] microservices will already be installed. So you don't need to install them again.
+
+So to install the funktion operator just type:
+
+[source]
+----
+funktion install operator
+----
+
+The funktion operator `Deployment` will created in the `funktion-system` namespace. You can change the namespace they are installed into via the `--namespace` argument.
+
+[[setup-namespace]]
+== Setting up your namespace
+
+Once you have the platform installed you need to install the runtimes and connectors in the namespace you are going to use funktion.
+
+For example to install the default runtimes and some connectors type:
+
+[source]
+----
+funktion install runtime
+funktion install connector timer twitter
+----
+
+That will install the default runtimes (e.g. nodejs) along with the `timer` and `twitter` connectors so that you can use them inside flows.
+
+To see a list of all the connectors available type:
+
+[source]
+----
+funktion install connector --list
+----
+
+To install all the connectors type:
+
+[source]
+----
+funktion install connector --all
+----
+
+Note that installing a connector just creates a kubernetes `ConfigMap` resource; no containers are created until you use the connector in a flow.
 
 

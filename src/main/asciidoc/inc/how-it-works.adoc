@@ -2,33 +2,35 @@
 
 = How it works
 
-The `funktion operator` watches for `Subscription` and `Function` resources.
+The `funktion operator` watches for `Flow` and `Function` resources.
 
-When a new `Subscription` is created then this operator will spin up a matching `Deployment` which consumes from some `Connector` and typically invokes a function using HTTP.
+When a new `function` is created then the operator will spin up a matching `Deployment` for running the `function source code` along with a `Service` to expose the service as a HTTP or HTTPS endpoint.
 
-When a new is created then this operator will spin up a matching `Deployment` for running the `function source code` along with a `Service` to expose the service as a HTTP or HTTPS endpoint.
+When a new `flow` is created then this operator will spin up a matching `Deployment` which consumes from some `Connector` and typically invokes a function using HTTP.
 
 The following kubernetes resources are used:
 
 == Kubernetes Resources
 
-A `Subscription` is modelled as a Kubernetes `ConfigMap` with the label `kind.funktion.fabric8.io: &quot;Subscription&quot;`. A ConfigMap is used so that the entries inside the `ConfigMap` can be mounted as files inside the `Deployment`. For example this will typically involve storing the `funktion.yml` file or maybe a Spring Boot `application.properties` file inside the `ConfigMap` like link:examples/subscription1.yml[this example subscription]
+A `function` is modelled as a Kubernetes `ConfigMap` with the label `kind.funktion.fabric8.io: &quot;Function&quot;` which contains the source code of the function inside the `Data['source']'` entry.
+
+A `flow` is modelled as a Kubernetes `ConfigMap` with the label `kind.funktion.fabric8.io: &quot;Flow&quot;`. A ConfigMap is used so that the entries inside the `ConfigMap` can be mounted as files inside the `Deployment`. For example this will typically involve storing the `funktion.yml` file or maybe a Spring Boot `application.properties` file inside the `ConfigMap` like link:examples/flow1.yml[this example flow]
 
 A `Connector` is generated https://github.com/fabric8io/funktion/blob/master/connectors/[for every Camel Component] and each connector has an associated `ConfigMap` resource like https://github.com/fabric8io/funktion/blob/master/connectors/connector-timer/src/main/fabric8/timer-cm.yml[this example] which uses the label `kind.funktion.fabric8.io: &quot;Connector&quot;`. The `Connector` stores the `Deployment` metadata, the `schema.yml` for editing the connectors endpoint URL and the `documentation.adoc` documentation for using the Connector.
 
-So a `Connector` can have `0..N Subscriptions` associated with it. For those who know http://camel.apache.org/[Apache Camel] this is like the relationship between a `Component` having `0..N Endpoints`.
+So a `Connector` can have `0..N flows` associated with it. For those who know http://camel.apache.org/[Apache Camel] this is like the relationship between a `Component` having `0..N Endpoints`.
 
-For example we could have a Connector called `kafka` which knows how to produce and consume messages on http://camel.apache.org/kafka.html[Apache Kafka] with the Connector containing the metadata of how to create a consumer, how to configure the kafka endpoint and the documetnation. Then a Subscription could be created for `kafka://cheese` to subscribe on the `cheese` topic and post messages to `http://foo/`.
+For example we could have a Connector called `kafka` which knows how to produce and consume messages on http://camel.apache.org/kafka.html[Apache Kafka] with the Connector containing the metadata of how to create a consumer, how to configure the kafka endpoint and the documetnation. Then a flow could be created for `kafka://cheese` to subscribe on the `cheese` topic and post messages to `http://foo/`.
 
 Typically a number of `Connector` resources are shipped as a package; such as inside the https://github.com/redhat-ipaas[Red Hat iPaaS] or as an app inside fabric8. Though a `Connector` can be created as part of the CD Pipeline by an expert Java developer who takes a Camel component and customizes it for use by `Funktion` or the `iPaaS`.
 
 The collection of `Connector` resources installed in a kubernetes namespace creates the `integration palette` thats seen by users in tools like CLI or web UIs.
 
-Then a `Subscription` can be created at any time by users from a `Connector` with a custom configuration (e.g. choosing a particular queue or topic in a messaging system or a particular table in a database or folder in a file system).
+Then a `flow` can be created at any time by users from a `Connector` with a custom configuration (e.g. choosing a particular queue or topic in a messaging system or a particular table in a database or folder in a file system).
 
 == Debugging
 
-If you ever need to you can debug any `Subscription` as each Subscription matches a `Deployment` of one or more pods. So you can just debug that pod which typically is a regular Spring Boot and camel application.
+If you ever need to you can debug any `flow` as each flow matches a `Deployment` of one or more pods. So you can just debug that pod which typically is a regular Spring Boot and camel application.
 
 Otherwise you can debug the pod thats exposing an HTTP endpoint using whatever the native debugger is; e.g. using Java or NodeJS or whatever.
 
