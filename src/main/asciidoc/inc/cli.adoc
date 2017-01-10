@@ -155,3 +155,12 @@ funktion operate
 ----
 
 Though ideally you'd install the funktion operator by <<install-platform>>
+
+=== Updating the binary
+
+The funktion binary is self updating so you can upgrade your binary to newer versions if they are available via the following command:
+
+[source]
+----
+funktion update
+----

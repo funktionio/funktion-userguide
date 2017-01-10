@@ -6,8 +6,6 @@ To use `funktion` you will need a http://kubernetes.io/[kubernetes] or https://w
 
 If you are on your laptop a quick way to get a kubernetes cluster is by https://github.com/kubernetes/minikube#installation[installing and starting minikube] and then http://kubernetes.io/docs/user-guide/prereqs/[installing kubectl] and putting it on your `PATH` environment variable.
 
-You will also need to https://github.com/funktionio/funktion/releases[download the funktion binary for your platform] and add it to your `PATH` environment variable
-
 To test your kubernetes cluster type the following commands which should succeed without error:
 
 [source]
@@ -16,6 +14,24 @@ kubectl get node
 kubectl get pod
 ----
 
+[[install-binary]]
+== Install the funktion binary
+
+You will also need to https://github.com/funktionio/funktion/releases[download the funktion binary for your platform] and add it to your `PATH` environment variable.
+
+You can test its installed by typing the following in a command shell
+
+[source]
+----
+funktion version
+----
+
+The funktion binary is self updating so you can upgrade your binary to newer versions if they are available via the following command:
+
+[source]
+----
+funktion update
+----
 
 [[install-platform]]
 == Installing the Funktion Platform
