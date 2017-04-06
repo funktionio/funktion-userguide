@@ -7,7 +7,7 @@ Funktion is designed so that it can bind any events to any HTTP endpoint or any 
 
 To do that you:
 
-* write a simple function in any programming language https://github.com/fabric8io/funktion/blob/master/funktion-runtime/src/test/java/io/fabric8/funktion/sample/Main.java#L25-L27[like this].
+* write a simple function in any programming language https://github.com/funktionio/funktion-connectors/blob/master/funktion-runtime/src/test/java/io/fabric8/funktion/sample/Main.java#L25-L27[like this].
 
 * create a link:funktion-runtime/funktion.yml[funktion.yml] file and associate your function with an http://camel.apache.org/components.html[event trigger endpoint URL] such as a HTTP URL or email address to listen on, a message queue name or database table etc.
 
@@ -43,20 +43,20 @@ First you will need to install the http://fabric8.io/[fabric8 microservices plat
 * from inside your `Team Dashboard` page click `Create Application` button then you will be presented with a number of different kinds of microservice to create
 * select the `Funktion` icon and type in the name of your microservice and hit `Next`
 
-image:https://raw.githubusercontent.com/fabric8io/funktion/master/docs/images/select-microservice.png[select the funktion microservice and enter a name for your project]
+image:https://raw.githubusercontent.com/funktionio/funktion-connectors/master/docs/images/select-microservice.png[select the funktion microservice and enter a name for your project]
 
 * select the kind of funktion you wish to create (Java, Groovy, Kotlin, NodeJS etc) then hit `Next`
 * you will now be prompted to choose one of the default CD Pipelines to use. For your first funktion we recommend `CanaryReleaseAndStage`
 * selecting `Copy pipeline to project` is kinda handy if you want to edit your `Jenkinsfile` from your source code later on
 
-image:https://raw.githubusercontent.com/fabric8io/funktion/master/docs/images/select-pipeline.png[select the CD Pipeline]
+image:https://raw.githubusercontent.com/funktionio/funktion-connectors/master/docs/images/select-pipeline.png[select the CD Pipeline]
 
 * click `Next` then your app should be built and deployed. Please be patient first time you build a funktion as its going to be downloading a few docker images to do the build and runtime. You're second build should be much faster!
 * once the build is complete you should see on the `App Dashboard` page the build pipeline run, the running pods for your funktion in each environment for your CD Pipeline and a link so you can easily navigate to the environment or ReplicaSet/ReplicationController/Pods in kubernetes
 * in the screenshot below you can see we're running version `1.0.1` of the app `groovyfunktion` which currently has `1` running pod (those are all clickable links to view the ReplicationController or pods)
 * for HTTP based funktions you can invoke the funktion via the open icon in the `Staging` environment (the icon to the right of the green `1` button next to `groovyfunction-1: 1.0.1`)
 
-image:https://raw.githubusercontent.com/fabric8io/funktion/master/docs/images/funktion-dashboard.png[Funktion dashboard]
+image:https://raw.githubusercontent.com/funktionio/funktion-connectors/master/docs/images/funktion-dashboard.png[Funktion dashboard]
 
 === How it works
 
