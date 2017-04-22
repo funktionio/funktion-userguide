@@ -24,7 +24,7 @@ You can create a function from an existing source file:
 
 [source]
 ----
-funktion create fn -f example/hello.js
+funktion create fn -f examples/hello.js
 ----
 
 Or you can specify the source code on the command line:
@@ -45,14 +45,14 @@ If you wish to keep editing the source code of the function in your editor and h
 
 [source]
 ----
-funktion create fn -f example/hello.js -w
+funktion create fn -f examples/hello.js -w
 ----
 
 If you have a folder with multiple function source files inside you can pass the directory name or a wildcard pattern:
 
 [source]
 ----
-funktion create fn -f example -w
+funktion create fn -f examples -w
 ----
 
 To be able to find the URL of the running function type:
