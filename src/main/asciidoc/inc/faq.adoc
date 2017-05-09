@@ -25,6 +25,8 @@ The term `serverless` just means that with lambda style programming the develope
 
 Its not that there are no servers - of course there are - its just that developers don't need to think about them at all, they are managed for you by the platform.
 
+== Comparision to other frameworks
+
 === How does Funktion compare to other serverless frameworks?
 
 There are many frameworks out there for serverless. From 30,000 feet they are all quite similar.
