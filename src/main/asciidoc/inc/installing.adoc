@@ -36,32 +36,18 @@ funktion update
 [[install-platform]]
 == Installing the Funktion Platform
 
-There are a number of microservices required to run funktion:
-
-* funktion operator: manages Deployments for functions and flows
-* https://github.com/fabric8io/exposecontroller/[exposecontroller]: exposes `Services` (functions or flows) over node ports, ingress, public cloud load balancers or openshift routes
-* https://github.com/fabric8io/configmapcontroller/[configmapcontroller]: performs rolling updates of a `Deployment` when its associated `ConfigMap` changes
-
-To install these microservices type:
+To install the funktion platform into your current kubernetes namespace:
 
 [source]
 ----
 funktion install platform
 ----
 
-You will then get 3 `Deployment` resources created in the `funktion-system` namespace. You can view the pods created via:
+You can watch the funktion operator pod start via:
 
 [source]
 ----
-kubectl get pod -n funktion-system
-----
-
-You can change the namespace they are installed into via the `--namespace` argument:
-
-[source]
-----
-kubectl create namespace cheese
-funktion install platform --namespace cheese
+kubectl get pod -w
 ----
 
 === Using Funktion with the Fabric8 Developer Platform
@@ -75,22 +61,17 @@ So to install the funktion operator just type:
 funktion install operator
 ----
 
-The funktion operator `Deployment` will created in the `funktion-system` namespace. You can change the namespace they are installed into via the `--namespace` argument.
+[[add-flow-connectors]]
+== Add flow connectors
 
-[[setup-namespace]]
-== Setting up your namespace
-
-Once you have the platform installed you need to install the runtimes and connectors in the namespace you are going to use funktion.
-
-For example to install the default runtimes and some connectors type:
+Once you have the platform installed you may wish to install some connectors. For example to install the timer and twitter connectors try:
 
 [source]
 ----
-funktion install runtime
 funktion install connector timer twitter
 ----
 
-That will install the default runtimes (e.g. nodejs) along with the `timer` and `twitter` connectors so that you can use them inside flows.
+That will install `timer` and `twitter` connectors so that you can use them inside flows.
 
 To see a list of all the connectors available type:
 
