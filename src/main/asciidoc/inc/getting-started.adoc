@@ -10,21 +10,36 @@ kubectl create namespace funky
 kubectl config set-context `kubectl config current-context` --namespace=funky
 ----
 
-Now we'll install the runtimes and a couple of connectors into the `funky` namespace
+Now we'll install the runtime platform (the controller and the nodejs runtime) and a couple of connectors into the `funky` namespace
 
 [source]
 ----
-funktion install runtime
+funktion install platform
 funktion install connector http4 timer twitter
 ----
 
 == Create a function
 
-You can create a function from an existing source file:
+You can create a function from an existing source file. e.g. lets clone an example project:
 
 [source]
 ----
-funktion create fn -f example/hello.js
+git clone https://github.com/funktionio/funktion-nodejs-quickstart.git
+cd funktion-nodejs-quickstart
+----
+
+Now we can create a function from a source file as follows:
+
+[source]
+----
+funktion create fn -f src/hello.js
+----
+
+Use `apply` instead of `create` so that you can insert or update resources. You can also omit the resource kind `fn` or `flow` and it'll figure out the right kind:
+
+[source]
+----
+funktion apply -f src/hello.js
 ----
 
 Or you can specify the source code on the command line:
@@ -34,7 +49,7 @@ Or you can specify the source code on the command line:
 funktion create fn -n hello -s 'module.exports = function(context, callback) { callback(200, "Hello, world!\n"); }'
 ----
 
-Either of these will create a new function. You can view it via
+Any of the above options will create a function resource. You can view it via
 
 [source]
 ----
@@ -45,17 +60,24 @@ If you wish to keep editing the source code of the function in your editor and h
 
 [source]
 ----
-funktion create fn -f example/hello.js -w
+funktion apply -f src/hello.js -w
 ----
 
 If you have a folder with multiple function source files inside you can pass the directory name or a wildcard pattern:
 
 [source]
 ----
-funktion create fn -f example -w
+funktion apply fn -f src -w
 ----
 
-To be able to find the URL of the running function type:
+To be able to find the URL of the running function you can type:
+
+[source]
+----
+funktion get fn
+----
+
+Or to script it this command is useful:
 
 [source]
 ----
