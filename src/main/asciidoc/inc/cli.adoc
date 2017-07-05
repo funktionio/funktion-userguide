@@ -164,3 +164,18 @@ The funktion binary is self updating so you can upgrade your binary to newer ver
 ----
 funktion update
 ----
+
+
+=== Using shell completion
+
+The funktion binary can generate completion for bash and zsh
+
+To generate completion for bash:
+
+[source]
+----
+source <(funktion completion bash)
+----
+
+and for zsh:
+source <(funktion completion zsh)
